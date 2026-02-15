@@ -573,6 +573,77 @@ window.addEventListener('scroll', () => {
   heroBg.style.filter = `blur(${blur}px)`;
   heroBg.style.transform = `translateY(${scrollY * 0.3}px) scale(${scale})`;
 });
+
+// Count-up animation for stat numbers
+function animateValue(el, target, duration) {
+  const isK = typeof target === 'string' && target.includes('k');
+  const num = isK ? parseFloat(target.replace('~','').replace('k','')) * 1000 : parseInt(target.replace(/[^0-9]/g,''));
+  const start = 0;
+  const startTime = performance.now();
+  function update(now) {
+    const elapsed = now - startTime;
+    const p = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const current = Math.round(start + (num - start) * eased);
+    if (isK) {
+      el.textContent = current >= 1000 ? '~' + (current/1000).toFixed(1) + 'k' : current;
+    } else {
+      el.textContent = current;
+    }
+    if (p < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Animate need bars
+function animateBar(row) {
+  const fill = row.querySelector('.need-bar-fill');
+  const val = row.querySelector('.need-val');
+  if (!fill) return;
+  const targetWidth = fill.style.width;
+  const targetNum = parseInt(targetWidth);
+  fill.style.width = '0%';
+  fill.style.transition = 'width 0.8s cubic-bezier(0.22,1,0.36,1)';
+  val.style.opacity = '0';
+  val.style.transition = 'opacity 0.4s ease';
+  requestAnimationFrame(() => {
+    fill.style.width = targetWidth;
+    // Count up the percentage
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / 800, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      val.textContent = Math.round(targetNum * eased) + '%';
+      val.style.opacity = Math.min(1, p * 2);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+// IntersectionObserver for stat values
+const statEls = document.querySelectorAll('.stat-value');
+const statObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !e.target.dataset.animated) {
+      e.target.dataset.animated = '1';
+      animateValue(e.target, e.target.textContent.trim(), 600);
+    }
+  });
+}, { threshold: 0.3 });
+statEls.forEach(el => statObs.observe(el));
+
+// IntersectionObserver for need rows
+const needRows = document.querySelectorAll('.need-row');
+const needObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting && !e.target.dataset.animated) {
+      e.target.dataset.animated = '1';
+      setTimeout(() => animateBar(e.target), i * 80);
+    }
+  });
+}, { threshold: 0.3 });
+needRows.forEach(el => needObs.observe(el));
 </script>
 </body>
 </html>
