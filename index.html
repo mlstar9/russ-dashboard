@@ -577,7 +577,9 @@ function toggleSkills() {
 // Fade, blur, and shrink avatar on scroll
 const heroBg = document.getElementById('hero-bg');
 const hero = document.getElementById('hero');
+let heroFadedIn = false;
 window.addEventListener('scroll', () => {
+  if (!heroFadedIn) return;
   const scrollY = window.scrollY;
   const heroH = hero.offsetHeight;
   const progress = Math.min(1, scrollY / (heroH * 0.6));
@@ -666,6 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const heroBg2 = document.querySelector('.hero-bg');
   const logo = document.querySelector('.pika-logo');
   setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 0);
+  setTimeout(() => { heroFadedIn = true; }, 3100);
 
   // Hero content + everything else fades in after
   const heroContent = document.querySelector('.hero-content');
