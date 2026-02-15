@@ -18,7 +18,8 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .hero-bg, .pika-logo { opacity: 1; }
+  .hero-bg, .pika-logo { opacity: 0; transition: opacity 2s ease; }
+  .hero-bg.visible, .pika-logo.visible { opacity: 1; }
   .hero-content { opacity: 0; transform: translateY(8px); transition: opacity 1s ease, transform 1s ease; }
   .hero-content.visible { opacity: 1; transform: translateY(0); }
   :root {
@@ -685,15 +686,19 @@ if (skillsSection) skillObs.observe(skillsSection);
 
 // Page load fade-in stagger
 document.addEventListener('DOMContentLoaded', () => {
-  heroFadedIn = true;
+  // Hero bg + logo fade in immediately over 2s
+  const heroBg2 = document.querySelector('.hero-bg');
+  const logo = document.querySelector('.pika-logo');
+  setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 0);
+  setTimeout(() => { heroFadedIn = true; }, 2100);
 
-  // Hero content + everything else fades in after
+  // Everything else fades in after hero (2s delay)
   const heroContent = document.querySelector('.hero-content');
   const sections = document.querySelectorAll('.summary, .section-label, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
   sections.forEach(el => el.classList.add('fade-in'));
-  setTimeout(() => heroContent.classList.add('visible'), 3500);
+  setTimeout(() => heroContent.classList.add('visible'), 2000);
   sections.forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), 3500 + i * 60);
+    setTimeout(() => el.classList.add('visible'), 2000 + i * 60);
   });
 });
 </script>
