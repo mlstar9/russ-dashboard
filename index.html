@@ -665,15 +665,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Hero bg + logo appear first
   const heroBg2 = document.querySelector('.hero-bg');
   const logo = document.querySelector('.pika-logo');
-  setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 50);
+  setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 150);
 
   // Hero content + everything else fades in after
   const heroContent = document.querySelector('.hero-content');
   const sections = document.querySelectorAll('.summary, .section-label, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
   sections.forEach(el => el.classList.add('fade-in'));
-  setTimeout(() => heroContent.classList.add('visible'), 350);
+  setTimeout(() => heroContent.classList.add('visible'), 500);
   sections.forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), 400 + i * 60);
+    setTimeout(() => el.classList.add('visible'), 900 + i * 60);
   });
 });
 </script>
