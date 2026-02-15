@@ -694,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Everything else fades in after hero (0.8s delay)
   const heroContent = document.querySelector('.hero-content');
-  const sections = document.querySelectorAll('.summary, .section-label, .skills-section, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
+  const sections = document.querySelectorAll('.summary, .section-label, .skills-section, .skills-grid, .stat-grid, .dot-grid, .mood-card, .awards-scroll, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
   sections.forEach(el => el.classList.add('fade-in'));
   setTimeout(() => heroContent.classList.add('visible'), 800);
   sections.forEach((el, i) => {
