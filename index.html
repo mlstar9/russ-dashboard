@@ -201,8 +201,9 @@
     border-radius: 50%;
     background: #222;
   }
-  .dot.active { background: #e5e5e5; }
-  .dot.today { background: #7B5EA7; border-radius: 50%; }
+  .dot.active { background: #e5e5e5; opacity: 0; transform: scale(0); transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+  .dot.active.dot-visible, .dot.today.dot-visible { opacity: 1; transform: scale(1); }
+  .dot.today { background: #7B5EA7; border-radius: 50%; opacity: 0; transform: scale(0); transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1); }
   .dots-legend {
     display: flex;
     justify-content: space-between;
@@ -269,8 +270,19 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+  .skill-chip:active {
+    transform: scale(0.93);
+    transition-duration: 0.1s;
+  }
   .skills-hidden {
-    display: none;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;
+  }
+  .skills-hidden.skills-expanded {
+    max-height: 300px;
+    opacity: 1;
   }
   .skills-toggle {
     display: flex;
@@ -319,6 +331,10 @@
     display: flex;
     flex-direction: column;
     min-height: 190px;
+    transition: transform 0.25s cubic-bezier(0.22,1,0.36,1);
+  }
+  .award-card:hover {
+    transform: scale(1.03);
   }
   .award-img {
     width: 100%;
@@ -417,7 +433,7 @@
     <span class="skill-chip">Angel Investing</span>
     <span class="skill-chip">Creative Direction</span>
   </div>
-  <div class="skills-row skills-hidden" id="skills-more">
+  <div class="skills-row skills-hidden" id="skills-more" style="display:flex">
     <span class="skill-chip">Typography</span>
     <span class="skill-chip">Design Systems</span>
     <span class="skill-chip">Prototyping</span>
@@ -448,9 +464,20 @@ function toggleSkills() {
   const more = document.getElementById('skills-more');
   const toggle = document.getElementById('skills-toggle');
   const text = document.getElementById('toggle-text');
-  const expanded = more.style.display === 'flex';
-  more.style.display = expanded ? 'none' : 'flex';
-  text.textContent = expanded ? 'Show all 26' : 'Show less';
+  const expanded = more.classList.contains('skills-expanded');
+  if (expanded) {
+    more.classList.remove('skills-expanded');
+    text.textContent = 'Show all 26';
+  } else {
+    more.style.display = 'flex';
+    more.classList.add('skills-expanded');
+    text.textContent = 'Show less';
+    // Animate chips in
+    const chips = more.querySelectorAll('.skill-chip');
+    chips.forEach((chip, i) => {
+      setTimeout(() => chip.classList.add('visible'), i * 40);
+    });
+  }
   toggle.classList.toggle('expanded');
 }
 </script>
@@ -669,13 +696,13 @@ const needObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.7 });
 needRows.forEach(el => needObs.observe(el));
 
-// IntersectionObserver for skill chips
+// IntersectionObserver for skill chips (top row only)
 const skillsSection = document.querySelector('.skills-section');
 const skillObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const chips = entry.target.querySelectorAll('.skill-chip');
-      chips.forEach((chip, i) => {
+      const topChips = document.querySelectorAll('#skills-top .skill-chip');
+      topChips.forEach((chip, i) => {
         setTimeout(() => chip.classList.add('visible'), i * 40);
       });
       skillObs.unobserve(entry.target);
@@ -684,7 +711,32 @@ const skillObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 if (skillsSection) skillObs.observe(skillsSection);
 
-// Page load fade-in stagger
+// IntersectionObserver for activity dots
+const dotsContainer = document.querySelector('.dots-container');
+const dotsObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.animated) {
+      entry.target.dataset.animated = '1';
+      const dots = entry.target.querySelectorAll('.dot');
+      dots.forEach((dot, i) => {
+        setTimeout(() => dot.classList.add('dot-visible'), i * 50);
+      });
+    }
+  });
+}, { threshold: 0.5 });
+if (dotsContainer) dotsObs.observe(dotsContainer);
+
+// Scroll-triggered section reveals via IntersectionObserver
+const sectionObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      sectionObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+// Page load
 document.addEventListener('DOMContentLoaded', () => {
   // Hero bg + logo fade in immediately over 0.8s
   const heroBg2 = document.querySelector('.hero-bg');
@@ -692,13 +744,15 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 0);
   setTimeout(() => { heroFadedIn = true; }, 900);
 
-  // Everything else fades in after hero (0.8s delay)
+  // Hero content fades in after bg
   const heroContent = document.querySelector('.hero-content');
-  const sections = document.querySelectorAll('.summary, .section-label, .skills-section, .skills-grid, .stat-grid, .dot-grid, .mood-card, .awards-scroll, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
-  sections.forEach(el => el.classList.add('fade-in'));
   setTimeout(() => heroContent.classList.add('visible'), 800);
-  sections.forEach((el, i) => {
-    setTimeout(() => el.classList.add('visible'), 800 + i * 60);
+
+  // All sections: add fade-in class, observe for scroll-triggered reveal
+  const sections = document.querySelectorAll('.summary, .section-label, .skills-section, .skills-grid, .stat-grid, .dot-grid, .mood-card, .awards-scroll, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
+  sections.forEach(el => {
+    el.classList.add('fade-in');
+    sectionObs.observe(el);
   });
 });
 </script>
