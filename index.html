@@ -738,22 +738,25 @@ const sectionObs = new IntersectionObserver((entries) => {
 
 // Page load
 document.addEventListener('DOMContentLoaded', () => {
-  // Hero bg + logo fade in immediately over 0.8s
+  // Hero bg + logo fade in immediately
   const heroBg2 = document.querySelector('.hero-bg');
   const logo = document.querySelector('.pika-logo');
   setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 0);
   setTimeout(() => { heroFadedIn = true; }, 900);
 
-  // Hero content fades in after bg
+  // Hero content fades in shortly after bg starts
   const heroContent = document.querySelector('.hero-content');
-  setTimeout(() => heroContent.classList.add('visible'), 800);
+  setTimeout(() => heroContent.classList.add('visible'), 400);
 
-  // All sections: add fade-in class, observe for scroll-triggered reveal
+  // All sections: add fade-in class but delay observer setup
+  // so above-the-fold sections animate AFTER hero content
   const sections = document.querySelectorAll('.summary, .section-label, .skills-section, .skills-grid, .stat-grid, .dot-grid, .mood-card, .awards-scroll, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
-  sections.forEach(el => {
-    el.classList.add('fade-in');
-    sectionObs.observe(el);
-  });
+  sections.forEach(el => el.classList.add('fade-in'));
+
+  // Start observing after hero content has appeared
+  setTimeout(() => {
+    sections.forEach(el => sectionObs.observe(el));
+  }, 700);
 });
 </script>
 </body>
