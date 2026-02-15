@@ -261,6 +261,13 @@
     font-weight: 600;
     color: var(--text);
     white-space: nowrap;
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .skill-chip.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
   .skills-hidden {
     display: none;
@@ -661,6 +668,21 @@ const needObs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.7 });
 needRows.forEach(el => needObs.observe(el));
+
+// IntersectionObserver for skill chips
+const skillsSection = document.querySelector('.skills-section');
+const skillObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const chips = entry.target.querySelectorAll('.skill-chip');
+      chips.forEach((chip, i) => {
+        setTimeout(() => chip.classList.add('visible'), i * 40);
+      });
+      skillObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+if (skillsSection) skillObs.observe(skillsSection);
 
 // Page load fade-in stagger
 document.addEventListener('DOMContentLoaded', () => {
