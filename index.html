@@ -18,7 +18,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .hero-bg, .pika-logo { opacity: 0; transition: opacity 3s ease; }
+  .hero-bg, .pika-logo { opacity: 0; transition: opacity 3s cubic-bezier(0.25, 0.1, 0.25, 1); }
   .hero-bg.visible, .pika-logo.visible { opacity: 1; }
   .hero-content { opacity: 0; transform: translateY(8px); transition: opacity 1s ease, transform 1s ease; }
   .hero-content.visible { opacity: 1; transform: translateY(0); }
