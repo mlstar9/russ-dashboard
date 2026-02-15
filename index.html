@@ -7,6 +7,19 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Page load fade-in */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .hero { opacity: 0; transition: opacity 0.6s ease; }
+  .hero.visible { opacity: 1; }
   :root {
     --bg: #000000;
     --card: #151515;
@@ -630,7 +643,7 @@ const statObs = new IntersectionObserver((entries) => {
       animateValue(e.target, e.target.textContent.trim(), 600);
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.7 });
 statEls.forEach(el => statObs.observe(el));
 
 // IntersectionObserver for need rows
@@ -642,8 +655,22 @@ const needObs = new IntersectionObserver((entries) => {
       setTimeout(() => animateBar(e.target), i * 80);
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.7 });
 needRows.forEach(el => needObs.observe(el));
+
+// Page load fade-in stagger
+document.addEventListener('DOMContentLoaded', () => {
+  const heroEl = document.querySelector('.hero');
+  // Hero + logo appear first
+  setTimeout(() => heroEl.classList.add('visible'), 50);
+
+  // All other sections fade in after hero
+  const sections = document.querySelectorAll('.summary, .section-label, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
+  sections.forEach(el => el.classList.add('fade-in'));
+  sections.forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 350 + i * 60);
+  });
+});
 </script>
 </body>
 </html>
