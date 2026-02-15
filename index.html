@@ -18,8 +18,7 @@
     opacity: 1;
     transform: translateY(0);
   }
-  .hero-bg, .pika-logo { opacity: 0; transition: opacity 3s cubic-bezier(0.25, 0.1, 0.25, 1); }
-  .hero-bg.visible, .pika-logo.visible { opacity: 1; }
+  .hero-bg, .pika-logo { opacity: 1; }
   .hero-content { opacity: 0; transform: translateY(8px); transition: opacity 1s ease, transform 1s ease; }
   .hero-content.visible { opacity: 1; transform: translateY(0); }
   :root {
@@ -686,11 +685,7 @@ if (skillsSection) skillObs.observe(skillsSection);
 
 // Page load fade-in stagger
 document.addEventListener('DOMContentLoaded', () => {
-  // Hero bg + logo appear first
-  const heroBg2 = document.querySelector('.hero-bg');
-  const logo = document.querySelector('.pika-logo');
-  setTimeout(() => { heroBg2.classList.add('visible'); logo.classList.add('visible'); }, 0);
-  setTimeout(() => { heroFadedIn = true; }, 3100);
+  heroFadedIn = true;
 
   // Hero content + everything else fades in after
   const heroContent = document.querySelector('.hero-content');
