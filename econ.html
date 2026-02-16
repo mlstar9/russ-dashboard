@@ -28,6 +28,7 @@
       --green: #34d399;
       --amber: #E8A317;
       --red: #E85D5D;
+      --purple: #7B5EA7;
     }
 
     body {
@@ -38,6 +39,13 @@
       margin: 0 auto;
       padding: 24px 16px 40px;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* Pika Logo */
+    .pika-logo {
+      width: 64px;
+      opacity: 0.9;
+      margin-bottom: 16px;
     }
 
     /* Header */
@@ -280,21 +288,43 @@
     .log-tag.cost { background: rgba(52,211,153,0.15); color: var(--green); }
     .log-tag.cost.high { background: rgba(232,93,93,0.15); color: var(--red); }
 
-    /* Footer template */
-    .footer-template {
-      margin-top: 24px;
-    }
-    .footer-code {
-      background: #0a0a0a;
-      border-radius: 16px;
-      padding: 14px;
-      font-family: 'SF Mono', Monaco, monospace;
-      font-size: 11px;
-      line-height: 1.8;
+    /* Protocol Browser */
+    .protocol-tabs {
+      display: flex;
+      gap: 8px;
       overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      -webkit-overflow-scrolling: touch;
     }
-    .footer-code .label { color: var(--text-secondary); }
-    .footer-code .var { color: var(--amber); }
+    .protocol-tabs::-webkit-scrollbar { display: none; }
+    .protocol-tab {
+      flex-shrink: 0;
+      padding: 8px 16px;
+      background: #1e1e1e;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .protocol-tab:hover {
+      border-color: #444;
+      color: var(--text);
+    }
+    .protocol-tab.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+    }
+    .protocol-content {
+      display: none;
+    }
+    .protocol-content.active {
+      display: block;
+    }
 
     /* Protocol grid */
     .protocol-grid {
@@ -319,9 +349,65 @@
       font-size: 12px;
       font-weight: 600;
     }
+
+    /* Protocol List */
+    .protocol-list-item {
+      background: #0a0a0a;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .protocol-list-item:last-child { margin-bottom: 0; }
+    .protocol-info h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .protocol-info p {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    .protocol-status {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .protocol-status.active {
+      background: rgba(52,211,153,0.15);
+      color: var(--green);
+    }
+    .protocol-status.available {
+      background: #1e1e1e;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .protocol-status.available:hover {
+      background: #2a2a2a;
+      color: var(--text);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 11px;
+      color: #999;
+      letter-spacing: 0.5px;
+    }
+    .footer a {
+      color: var(--purple);
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
+  <!-- Pika Logo -->
+  <img class="pika-logo fade-in" src="data:image/svg+xml,%3Csvg%20width%3D%221059%22%20height%3D%22359%22%20viewBox%3D%220%200%201059%20359%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20opacity%3D%220%22%3E%0A%3Crect%20width%3D%221059%22%20height%3D%22359%22%20rx%3D%2222%22%20fill%3D%22%23FDF7EF%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M579.486%2098H604.222V123.979H579.486V98ZM579.486%20135.217H604.222V258.157H579.486V135.217Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M625.354%2098H650.09V183.089L735.462%20116.669H769.732L680.099%20185.053L772.153%20258.157H736.261L650.072%20190.555V258.157H625.336V98H625.345H625.354Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M404.724%20258.166V98.0005H493.549C553.388%2098.0005%20559.845%20134.079%20559.845%20149.584C559.845%20165.09%20553.388%20201.177%20493.531%20201.177H429.459V258.175H404.724V258.166ZM429.459%20177.397H489.083C520.069%20177.397%20533.289%20169.079%20533.289%20149.584C533.289%20130.089%20520.069%20121.772%20489.083%20121.772H429.459V177.388V177.397Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M838.517%20260.219C816.571%20260.219%20799.082%20257.073%20789.27%20251.354C778.301%20244.965%20772.974%20235.074%20772.974%20221.116C772.974%20185.533%20809.988%20180.883%20871.298%20173.191C879.477%20172.165%20887.854%20171.114%20896.67%20169.923C896.67%20147.29%20883.881%20139.268%20847.8%20139.268C817.934%20139.268%20804.615%20147.873%20804.615%20167.159H779.673C779.673%20134.922%20805.144%20115.671%20847.809%20115.671C898.581%20115.671%20921.218%20131.854%20921.218%20168.141V230.198C921.218%20246.947%20922.231%20258.037%20922.24%20258.15H899.746C899.746%20258.09%20899.11%20252.049%20899.746%20242.288C892.697%20253.005%20868.096%20260.21%20838.535%20260.21L838.517%20260.219ZM896.67%20190.939C859.683%20195.094%20833.647%20198.579%20818.158%20203.098C803.781%20207.288%20797.925%20212.45%20797.925%20220.907C797.925%20238.256%20820.418%20240.846%20833.817%20240.846C855.701%20240.846%20870.473%20238.256%20880.311%20232.702C891.316%20226.487%20896.67%20216.11%20896.67%20200.978V190.939Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M141.738%20258.157H216.974C215.756%20246.058%20207.032%20232.805%20185.708%20223.772V222.878C210.568%20230.441%20219.505%20243.357%20223.147%20258.148H315.957L301.03%20245.481C309.764%20218.304%20344.353%20205.455%20344.353%20205.455C343.126%20183.649%20331.841%20163.333%20294.112%20146.871L208.278%20113.235C211.157%20149.091%20224.007%20169.657%20256.229%20174.702V175.576C233.843%20175.029%20218.307%20165.14%20210.433%20144.785C142.057%20157.192%20125.574%20208.962%20141.738%20258.157Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3C%2Fsvg%3E" alt="Pika">
+
   <div class="header fade-in">
     <h1>💰 Economics</h1>
     <span class="status-pill" id="system-status">
@@ -329,7 +415,7 @@
       Under Budget
     </span>
   </div>
-  <div class="subtitle fade-in">Agent resource tracking</div>
+  <div class="subtitle fade-in">Agent resource tracking · <a href="https://pika.me" style="color: var(--purple); text-decoration: none;">pika.me</a></div>
 
   <div class="stat-grid fade-in">
     <div class="stat-card">
@@ -380,6 +466,95 @@
       <span class="model-badge opus">Opus — Complex</span>
     </div>
     <div class="stat-sub">Current: <strong style="color: #60a5fa;">Gemini Flash</strong> · $0.0001/1K tokens</div>
+  </div>
+
+  <div class="section-label fade-in">Protocols</div>
+  <div class="card fade-in">
+    <div class="protocol-tabs">
+      <div class="protocol-tab active" data-tab="active">Active</div>
+      <div class="protocol-tab" data-tab="available">Available</div>
+      <div class="protocol-tab" data-tab="custom">Custom</div>
+    </div>
+    
+    <div class="protocol-content active" id="tab-active">
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>💰 Budget First</h4>
+          <p>$0.50 max per task without approval</p>
+        </div>
+        <span class="protocol-status active">Active</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>🧠 Cheapest Viable</h4>
+          <p>Use smallest model that can handle task</p>
+        </div>
+        <span class="protocol-status active">Active</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>📄 RAG Snippets</h4>
+          <p>Extract relevant sections, not full files</p>
+        </div>
+        <span class="protocol-status active">Active</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>👥 Peer Review</h4>
+          <p>Veto redundant or wasteful prompts</p>
+        </div>
+        <span class="protocol-status active">Active</span>
+      </div>
+    </div>
+
+    <div class="protocol-content" id="tab-available">
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>⏱️ Time Boxing</h4>
+          <p>Max 5 minutes per task before escalation</p>
+        </div>
+        <span class="protocol-status available">+ Add</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>🔄 Retry Limits</h4>
+          <p>Max 3 retries before asking for help</p>
+        </div>
+        <span class="protocol-status available">+ Add</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>📊 Usage Reports</h4>
+          <p>Daily summary of costs and actions</p>
+        </div>
+        <span class="protocol-status available">+ Add</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>🚫 No External APIs</h4>
+          <p>Block calls to third-party services</p>
+        </div>
+        <span class="protocol-status available">+ Add</span>
+      </div>
+      <div class="protocol-list-item">
+        <div class="protocol-info">
+          <h4>💾 Cache First</h4>
+          <p>Check local cache before any API call</p>
+        </div>
+        <span class="protocol-status available">+ Add</span>
+      </div>
+    </div>
+
+    <div class="protocol-content" id="tab-custom">
+      <div class="logic-box" style="text-align: center; padding: 24px;">
+        <div style="font-size: 24px; margin-bottom: 8px;">🛠️</div>
+        <div style="color: var(--text); font-weight: 600; margin-bottom: 4px;">Create Custom Protocol</div>
+        <div style="color: var(--text-secondary); font-size: 11px;">Define your own economic rules and constraints</div>
+        <div style="margin-top: 12px;">
+          <span class="protocol-status available" style="display: inline-block;">Coming Soon</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="section-label fade-in">Current Reasoning</div>
@@ -440,38 +615,9 @@
     </div>
   </div>
 
-  <div class="section-label fade-in">Protocol</div>
-  <div class="card fade-in">
-    <div class="protocol-grid">
-      <div class="protocol-item">
-        <div class="protocol-label">Budget First</div>
-        <div class="protocol-value">$0.50 max/task</div>
-      </div>
-      <div class="protocol-item">
-        <div class="protocol-label">Model Choice</div>
-        <div class="protocol-value">Cheapest viable</div>
-      </div>
-      <div class="protocol-item">
-        <div class="protocol-label">Context</div>
-        <div class="protocol-value">RAG snippets</div>
-      </div>
-      <div class="protocol-item">
-        <div class="protocol-label">Review</div>
-        <div class="protocol-value">Veto redundant</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-label fade-in">Log Footer Format</div>
-  <div class="card footer-template fade-in">
-    <div class="footer-code">
-      <span class="label">---</span><br>
-      <span class="label">Cost:</span> <span class="var">$[Amount]</span><br>
-      <span class="label">Confidence:</span> <span class="var">[0-100]%</span><br>
-      <span class="label">Source:</span> <span class="var">[File/Email used]</span><br>
-      <span class="label">Reasoning:</span> <span class="var">[1-sentence "why"]</span><br>
-      <span class="label">---</span>
-    </div>
+  <div class="footer fade-in">
+    RUSS · BORN AT <a href="https://pika.me">PIKA.ME</a><br>
+    ECONOMICS DASHBOARD v1.0
   </div>
 
   <script>
@@ -479,6 +625,30 @@
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.fade-in').forEach((el, i) => {
         setTimeout(() => el.classList.add('visible'), i * 80);
+      });
+    });
+
+    // Protocol tabs
+    document.querySelectorAll('.protocol-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.protocol-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.protocol-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Add protocol click handler
+    document.querySelectorAll('.protocol-status.available').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.textContent === '+ Add') {
+          this.textContent = 'Added!';
+          this.style.background = 'rgba(52,211,153,0.15)';
+          this.style.color = '#34d399';
+          setTimeout(() => {
+            this.textContent = 'Active';
+          }, 1000);
+        }
       });
     });
 
