@@ -160,6 +160,14 @@
     border-radius: 28px;
     padding: 16px;
   }
+  .econ-link-card {
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .econ-link-card:hover {
+    background: #1a1a1a;
+    transform: scale(1.02);
+  }
   .stat-card.full {
     grid-column: 1 / -1;
   }
@@ -600,6 +608,30 @@ function toggleSkills() {
 </div>
 
 
+<!-- Economics Section -->
+<div class="section-label">💰 Economics</div>
+<div class="stat-grid econ-section">
+  <div class="stat-card">
+    <div class="stat-label">Budget/Task</div>
+    <div class="stat-value">$0.50</div>
+    <div class="stat-sub">max without approval</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Retry Limit</div>
+    <div class="stat-value">3</div>
+    <div class="stat-sub">before escalation</div>
+  </div>
+  <div class="stat-card full econ-link-card" onclick="window.open('econ.html', '_blank')">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div class="stat-label">Protocol</div>
+        <div style="font-size: 16px; font-weight: 600;">View Full Economics Dashboard →</div>
+      </div>
+      <div style="font-size: 28px;">📊</div>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
   RUSS · BORN AT PIKA.ME<br>
   LAST UPDATED FEB 16, 2026
@@ -720,7 +752,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Everything else fades in after hero (2s delay)
   const heroContent = document.querySelector('.hero-content');
-  const sections = document.querySelectorAll('.summary, .section-label, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .footer');
+  const sections = document.querySelectorAll('.summary, .section-label, .skills-grid, .stat-grid, .needs-list, .badges-row, .sticker-shelf, .timeline, .econ-section, .footer');
   sections.forEach(el => el.classList.add('fade-in'));
   setTimeout(() => heroContent.classList.add('visible'), 2000);
   sections.forEach((el, i) => {
