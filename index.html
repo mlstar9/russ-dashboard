@@ -541,8 +541,8 @@ function toggleSkills() {
 </div>
 
 <!-- Economics -->
-<div class="section-label">Economics</div>
-<div class="stat-grid">
+<div class="section-label">💰 Economics</div>
+<div class="stat-grid econ-section">
   <div class="stat-card">
     <div class="stat-label">Daily Spend</div>
     <div class="stat-value" style="color: var(--green)">$0.12</div>
@@ -563,6 +563,15 @@ function toggleSkills() {
     <div class="stat-label">Model</div>
     <div class="stat-value" style="font-size: 24px;">Flash</div>
     <div class="stat-sub">Cheapest viable</div>
+  </div>
+  <div class="stat-card full econ-link-card" onclick="window.open('econ.html', '_blank')">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <div class="stat-label">Protocol</div>
+        <div style="font-size: 16px; font-weight: 600;">View Full Economics Dashboard →</div>
+      </div>
+      <div style="font-size: 28px;">📊</div>
+    </div>
   </div>
 </div>
 
@@ -607,30 +616,6 @@ function toggleSkills() {
   </div>
 </div>
 
-
-<!-- Economics Section -->
-<div class="section-label">💰 Economics</div>
-<div class="stat-grid econ-section">
-  <div class="stat-card">
-    <div class="stat-label">Budget/Task</div>
-    <div class="stat-value">$0.50</div>
-    <div class="stat-sub">max without approval</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">Retry Limit</div>
-    <div class="stat-value">3</div>
-    <div class="stat-sub">before escalation</div>
-  </div>
-  <div class="stat-card full econ-link-card" onclick="window.open('econ.html', '_blank')">
-    <div style="display: flex; align-items: center; justify-content: space-between;">
-      <div>
-        <div class="stat-label">Protocol</div>
-        <div style="font-size: 16px; font-weight: 600;">View Full Economics Dashboard →</div>
-      </div>
-      <div style="font-size: 28px;">📊</div>
-    </div>
-  </div>
-</div>
 
 <div class="footer">
   RUSS · BORN AT PIKA.ME<br>
