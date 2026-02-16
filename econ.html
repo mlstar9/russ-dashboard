@@ -37,29 +37,50 @@
       color: var(--text);
       max-width: 420px;
       margin: 0 auto;
-      padding: 24px 16px 40px;
+      padding: 0 16px 40px;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Pika Logo */
-    .pika-logo {
-      width: 64px;
-      opacity: 0.9;
-      margin-bottom: 16px;
+    /* Hero Section */
+    .hero {
+      position: relative;
+      margin: 0 -16px;
+      padding: 24px 16px 20px;
+      background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+      margin-bottom: 20px;
     }
-
-    /* Header */
-    .header {
+    .hero-content {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      gap: 16px;
     }
-    .header h1 {
-      font-size: 28px;
+    .hero-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--purple);
+    }
+    .hero-info {
+      flex: 1;
+    }
+    .hero-info h1 {
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: -0.5px;
       color: #fff;
+      margin-bottom: 4px;
+    }
+    .hero-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .pika-logo {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 54px;
+      opacity: 0.8;
     }
     .status-pill {
       display: inline-flex;
@@ -71,6 +92,7 @@
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 20px;
+      margin-top: 8px;
     }
     .status-dot {
       width: 5px; height: 5px;
@@ -92,12 +114,6 @@
       color: var(--red);
     }
     .status-pill.danger .status-dot { background: var(--red); }
-
-    .subtitle {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-bottom: 28px;
-    }
 
     /* Section Labels */
     .section-label {
@@ -130,9 +146,6 @@
       border: 1px solid var(--card-border);
       border-radius: 28px;
       padding: 16px;
-    }
-    .stat-card.full {
-      grid-column: 1 / -1;
     }
     .stat-label {
       font-size: 10px;
@@ -286,7 +299,6 @@
       color: var(--text-secondary);
     }
     .log-tag.cost { background: rgba(52,211,153,0.15); color: var(--green); }
-    .log-tag.cost.high { background: rgba(232,93,93,0.15); color: var(--red); }
 
     /* Protocol Browser */
     .protocol-tabs {
@@ -326,30 +338,6 @@
       display: block;
     }
 
-    /* Protocol grid */
-    .protocol-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .protocol-item {
-      background: #0a0a0a;
-      border-radius: 16px;
-      padding: 12px;
-    }
-    .protocol-label {
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-    .protocol-value {
-      font-size: 12px;
-      font-weight: 600;
-    }
-
     /* Protocol List */
     .protocol-list-item {
       background: #0a0a0a;
@@ -370,22 +358,59 @@
       font-size: 11px;
       color: var(--text-secondary);
     }
+    
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #666;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--green);
+    }
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(20px);
+      background-color: white;
+    }
+
     .protocol-status {
       font-size: 10px;
       padding: 4px 10px;
       border-radius: 12px;
       font-weight: 600;
-    }
-    .protocol-status.active {
-      background: rgba(52,211,153,0.15);
-      color: var(--green);
-    }
-    .protocol-status.available {
       background: #1e1e1e;
       color: var(--text-secondary);
       cursor: pointer;
     }
-    .protocol-status.available:hover {
+    .protocol-status:hover {
       background: #2a2a2a;
       color: var(--text);
     }
@@ -405,17 +430,21 @@
   </style>
 </head>
 <body>
-  <!-- Pika Logo -->
-  <img class="pika-logo fade-in" src="data:image/svg+xml,%3Csvg%20width%3D%221059%22%20height%3D%22359%22%20viewBox%3D%220%200%201059%20359%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20opacity%3D%220%22%3E%0A%3Crect%20width%3D%221059%22%20height%3D%22359%22%20rx%3D%2222%22%20fill%3D%22%23FDF7EF%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M579.486%2098H604.222V123.979H579.486V98ZM579.486%20135.217H604.222V258.157H579.486V135.217Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M625.354%2098H650.09V183.089L735.462%20116.669H769.732L680.099%20185.053L772.153%20258.157H736.261L650.072%20190.555V258.157H625.336V98H625.345H625.354Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M404.724%20258.166V98.0005H493.549C553.388%2098.0005%20559.845%20134.079%20559.845%20149.584C559.845%20165.09%20553.388%20201.177%20493.531%20201.177H429.459V258.175H404.724V258.166ZM429.459%20177.397H489.083C520.069%20177.397%20533.289%20169.079%20533.289%20149.584C533.289%20130.089%20520.069%20121.772%20489.083%20121.772H429.459V177.388V177.397Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M838.517%20260.219C816.571%20260.219%20799.082%20257.073%20789.27%20251.354C778.301%20244.965%20772.974%20235.074%20772.974%20221.116C772.974%20185.533%20809.988%20180.883%20871.298%20173.191C879.477%20172.165%20887.854%20171.114%20896.67%20169.923C896.67%20147.29%20883.881%20139.268%20847.8%20139.268C817.934%20139.268%20804.615%20147.873%20804.615%20167.159H779.673C779.673%20134.922%20805.144%20115.671%20847.809%20115.671C898.581%20115.671%20921.218%20131.854%20921.218%20168.141V230.198C921.218%20246.947%20922.231%20258.037%20922.24%20258.15H899.746C899.746%20258.09%20899.11%20252.049%20899.746%20242.288C892.697%20253.005%20868.096%20260.21%20838.535%20260.21L838.517%20260.219ZM896.67%20190.939C859.683%20195.094%20833.647%20198.579%20818.158%20203.098C803.781%20207.288%20797.925%20212.45%20797.925%20220.907C797.925%20238.256%20820.418%20240.846%20833.817%20240.846C855.701%20240.846%20870.473%20238.256%20880.311%20232.702C891.316%20226.487%20896.67%20216.11%20896.67%20200.978V190.939Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M141.738%20258.157H216.974C215.756%20246.058%20207.032%20232.805%20185.708%20223.772V222.878C210.568%20230.441%20219.505%20243.357%20223.147%20258.148H315.957L301.03%20245.481C309.764%20218.304%20344.353%20205.455%20344.353%20205.455C343.126%20183.649%20331.841%20163.333%20294.112%20146.871L208.278%20113.235C211.157%20149.091%20224.007%20169.657%20256.229%20174.702V175.576C233.843%20175.029%20218.307%20165.14%20210.433%20144.785C142.057%20157.192%20125.574%20208.962%20141.738%20258.157Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3C%2Fsvg%3E" alt="Pika">
-
-  <div class="header fade-in">
-    <h1>💰 Economics</h1>
-    <span class="status-pill" id="system-status">
-      <span class="status-dot"></span>
-      Under Budget
-    </span>
+  <!-- Hero Section -->
+  <div class="hero fade-in">
+    <img class="pika-logo" src="data:image/svg+xml,%3Csvg%20width%3D%221059%22%20height%3D%22359%22%20viewBox%3D%220%200%201059%20359%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20opacity%3D%220%22%3E%0A%3Crect%20width%3D%221059%22%20height%3D%22359%22%20rx%3D%2222%22%20fill%3D%22%23FDF7EF%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M579.486%2098H604.222V123.979H579.486V98ZM579.486%20135.217H604.222V258.157H579.486V135.217Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M625.354%2098H650.09V183.089L735.462%20116.669H769.732L680.099%20185.053L772.153%20258.157H736.261L650.072%20190.555V258.157H625.336V98H625.345H625.354Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M404.724%20258.166V98.0005H493.549C553.388%2098.0005%20559.845%20134.079%20559.845%20149.584C559.845%20165.09%20553.388%20201.177%20493.531%20201.177H429.459V258.175H404.724V258.166ZM429.459%20177.397H489.083C520.069%20177.397%20533.289%20169.079%20533.289%20149.584C533.289%20130.089%20520.069%20121.772%20489.083%20121.772H429.459V177.388V177.397Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M838.517%20260.219C816.571%20260.219%20799.082%20257.073%20789.27%20251.354C778.301%20244.965%20772.974%20235.074%20772.974%20221.116C772.974%20185.533%20809.988%20180.883%20871.298%20173.191C879.477%20172.165%20887.854%20171.114%20896.67%20169.923C896.67%20147.29%20883.881%20139.268%20847.8%20139.268C817.934%20139.268%20804.615%20147.873%20804.615%20167.159H779.673C779.673%20134.922%20805.144%20115.671%20847.809%20115.671C898.581%20115.671%20921.218%20131.854%20921.218%20168.141V230.198C921.218%20246.947%20922.231%20258.037%20922.24%20258.15H899.746C899.746%20258.09%20899.11%20252.049%20899.746%20242.288C892.697%20253.005%20868.096%20260.21%20838.535%20260.21L838.517%20260.219ZM896.67%20190.939C859.683%20195.094%20833.647%20198.579%20818.158%20203.098C803.781%20207.288%20797.925%20212.45%20797.925%20220.907C797.925%20238.256%20820.418%20240.846%20833.817%20240.846C855.701%20240.846%20870.473%20238.256%20880.311%20232.702C891.316%20226.487%20896.67%20216.11%20896.67%20200.978V190.939Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M141.738%20258.157H216.974C215.756%20246.058%20207.032%20232.805%20185.708%20223.772V222.878C210.568%20230.441%20219.505%20243.357%20223.147%20258.148H315.957L301.03%20245.481C309.764%20218.304%20344.353%20205.455%20344.353%20205.455C343.126%20183.649%20331.841%20163.333%20294.112%20146.871L208.278%20113.235C211.157%20149.091%20224.007%20169.657%20256.229%20174.702V175.576C233.843%20175.029%20218.307%20165.14%20210.433%20144.785C142.057%20157.192%20125.574%20208.962%20141.738%20258.157Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3C%2Fsvg%3E" alt="Pika">
+    <div class="hero-content">
+      <img class="hero-avatar" src="data:image/jpeg;base64,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" alt="Russ">
+      <div class="hero-info">
+        <h1>💰 Economics</h1>
+        <p>Agent resource tracking</p>
+        <span class="status-pill" id="system-status">
+          <span class="status-dot"></span>
+          Under Budget
+        </span>
+      </div>
+    </div>
   </div>
-  <div class="subtitle fade-in">Agent resource tracking · <a href="https://pika.me" style="color: var(--purple); text-decoration: none;">pika.me</a></div>
 
   <div class="stat-grid fade-in">
     <div class="stat-card">
@@ -482,28 +511,40 @@
           <h4>💰 Budget First</h4>
           <p>$0.50 max per task without approval</p>
         </div>
-        <span class="protocol-status active">Active</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked data-protocol="budget">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>🧠 Cheapest Viable</h4>
           <p>Use smallest model that can handle task</p>
         </div>
-        <span class="protocol-status active">Active</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked data-protocol="cheapest">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>📄 RAG Snippets</h4>
           <p>Extract relevant sections, not full files</p>
         </div>
-        <span class="protocol-status active">Active</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked data-protocol="rag">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>👥 Peer Review</h4>
           <p>Veto redundant or wasteful prompts</p>
         </div>
-        <span class="protocol-status active">Active</span>
+        <label class="toggle-switch">
+          <input type="checkbox" checked data-protocol="peer">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
     </div>
 
@@ -513,35 +554,50 @@
           <h4>⏱️ Time Boxing</h4>
           <p>Max 5 minutes per task before escalation</p>
         </div>
-        <span class="protocol-status available">+ Add</span>
+        <label class="toggle-switch">
+          <input type="checkbox" data-protocol="timebox">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>🔄 Retry Limits</h4>
           <p>Max 3 retries before asking for help</p>
         </div>
-        <span class="protocol-status available">+ Add</span>
+        <label class="toggle-switch">
+          <input type="checkbox" data-protocol="retry">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>📊 Usage Reports</h4>
           <p>Daily summary of costs and actions</p>
         </div>
-        <span class="protocol-status available">+ Add</span>
+        <label class="toggle-switch">
+          <input type="checkbox" data-protocol="reports">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>🚫 No External APIs</h4>
           <p>Block calls to third-party services</p>
         </div>
-        <span class="protocol-status available">+ Add</span>
+        <label class="toggle-switch">
+          <input type="checkbox" data-protocol="noapi">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
       <div class="protocol-list-item">
         <div class="protocol-info">
           <h4>💾 Cache First</h4>
           <p>Check local cache before any API call</p>
         </div>
-        <span class="protocol-status available">+ Add</span>
+        <label class="toggle-switch">
+          <input type="checkbox" data-protocol="cache">
+          <span class="toggle-slider"></span>
+        </label>
       </div>
     </div>
 
@@ -551,7 +607,7 @@
         <div style="color: var(--text); font-weight: 600; margin-bottom: 4px;">Create Custom Protocol</div>
         <div style="color: var(--text-secondary); font-size: 11px;">Define your own economic rules and constraints</div>
         <div style="margin-top: 12px;">
-          <span class="protocol-status available" style="display: inline-block;">Coming Soon</span>
+          <span class="protocol-status">Coming Soon</span>
         </div>
       </div>
     </div>
@@ -617,7 +673,7 @@
 
   <div class="footer fade-in">
     RUSS · BORN AT <a href="https://pika.me">PIKA.ME</a><br>
-    ECONOMICS DASHBOARD v1.0
+    ECONOMICS DASHBOARD v1.1
   </div>
 
   <script>
@@ -638,17 +694,13 @@
       });
     });
 
-    // Add protocol click handler
-    document.querySelectorAll('.protocol-status.available').forEach(btn => {
-      btn.addEventListener('click', function() {
-        if (this.textContent === '+ Add') {
-          this.textContent = 'Added!';
-          this.style.background = 'rgba(52,211,153,0.15)';
-          this.style.color = '#34d399';
-          setTimeout(() => {
-            this.textContent = 'Active';
-          }, 1000);
-        }
+    // Toggle switch handler
+    document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+      toggle.addEventListener('change', function() {
+        const protocol = this.dataset.protocol;
+        const status = this.checked ? 'enabled' : 'disabled';
+        console.log(`Protocol ${protocol} ${status}`);
+        // In a real app, this would save to backend
       });
     });
 
