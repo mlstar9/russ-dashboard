@@ -586,6 +586,230 @@
       font-size: 12px;
       opacity: 0.7;
     }
+    
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      .main {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      
+      .profile-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 20px;
+        text-align: left;
+        padding: 20px;
+      }
+      
+      .avatar-container {
+        width: 100px;
+        height: 100px;
+        margin: 0;
+      }
+      
+      .profile-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .bot-name {
+        font-size: 22px;
+      }
+      
+      .connections {
+        justify-content: flex-start;
+        margin-bottom: 16px;
+      }
+      
+      .profile-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      
+      .profile-actions .btn {
+        width: auto;
+        flex: 1;
+        min-width: 140px;
+      }
+      
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .usage-ring-container {
+        flex-direction: column;
+        gap: 24px;
+      }
+      
+      .quick-actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .header {
+        padding: 12px 16px;
+      }
+      
+      .logo {
+        font-size: 20px;
+      }
+      
+      .header-actions {
+        gap: 8px;
+      }
+      
+      .header-actions .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      
+      .main {
+        padding: 12px;
+        gap: 12px;
+      }
+      
+      .profile-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .avatar-container {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 12px;
+      }
+      
+      .connections {
+        justify-content: center;
+      }
+      
+      .profile-actions {
+        flex-direction: column;
+      }
+      
+      .profile-actions .btn {
+        width: 100%;
+      }
+      
+      .token-bar {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+      
+      .token-info {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .token-bar .btn {
+        width: 100%;
+      }
+      
+      .stats-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      
+      .stat-card {
+        padding: 14px;
+      }
+      
+      .stat-value {
+        font-size: 24px;
+      }
+      
+      .stat-label {
+        font-size: 10px;
+      }
+      
+      .usage-card, .activity-card {
+        padding: 16px;
+      }
+      
+      .card-title {
+        font-size: 16px;
+      }
+      
+      .usage-ring {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .usage-ring svg {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .usage-ring-bg, .usage-ring-fill {
+        stroke-width: 10;
+      }
+      
+      .usage-percent {
+        font-size: 28px;
+      }
+      
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-align: left;
+        padding: 16px;
+      }
+      
+      .action-icon {
+        margin: 0;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+      }
+      
+      .activity-item {
+        padding: 10px;
+      }
+      
+      .activity-badge {
+        display: none;
+      }
+      
+      .activity-text {
+        font-size: 13px;
+      }
+      
+      .connection-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 380px) {
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .stat-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .stat-value {
+        order: 2;
+      }
+      
+      .stat-subtext {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
