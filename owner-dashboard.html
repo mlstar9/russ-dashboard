@@ -67,12 +67,61 @@
       gap: 16px;
     }
     
+    @media (max-width: 900px) {
+      .nav { display: none; }
+    }
+    
+    /* Sticky Navigation */
+    .nav {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--gray-lighter);
+      border-radius: 12px;
+    }
+    
+    .nav-item {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .nav-item:hover {
+      color: var(--black);
+    }
+    
+    .nav-item.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    
+    .nav-item i {
+      font-size: 14px;
+    }
+    
     .logo {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 700;
       font-size: 20px;
+    }
+    
+    .logo img.pika-logo {
+      height: 28px;
+      width: auto;
+    }
+    
+    .logo span {
+      display: none;
     }
     
     .logo-icon {
@@ -968,14 +1017,20 @@
   <header class="header">
     <div class="header-left">
       <div class="logo">
-        <div class="logo-icon"><i class="ph ph-paw-print"></i></div>
-        <span>Pika</span>
+        <img class="pika-logo" src="data:image/svg+xml,%3Csvg%20width%3D%221059%22%20height%3D%22359%22%20viewBox%3D%220%200%201059%20359%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20opacity%3D%220%22%3E%0A%3Crect%20width%3D%221059%22%20height%3D%22359%22%20rx%3D%2222%22%20fill%3D%22%23FDF7EF%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M579.486%2098H604.222V123.979H579.486V98ZM579.486%20135.217H604.222V258.157H579.486V135.217Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M625.354%2098H650.09V183.089L735.462%20116.669H769.732L680.099%20185.053L772.153%20258.157H736.261L650.072%20190.555V258.157H625.336V98H625.345H625.354Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M404.724%20258.166V98.0005H493.549C553.388%2098.0005%20559.845%20134.079%20559.845%20149.584C559.845%20165.09%20553.388%20201.177%20493.531%20201.177H429.459V258.175H404.724V258.166ZM429.459%20177.397H489.083C520.069%20177.397%20533.289%20169.079%20533.289%20149.584C533.289%20130.089%20520.069%20121.772%20489.083%20121.772H429.459V177.388V177.397Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M838.517%20260.219C816.571%20260.219%20799.082%20257.073%20789.27%20251.354C778.301%20244.965%20772.974%20235.074%20772.974%20221.116C772.974%20185.533%20809.988%20180.883%20871.298%20173.191C879.477%20172.165%20887.854%20171.114%20896.67%20169.923C896.67%20147.29%20883.881%20139.268%20847.8%20139.268C817.934%20139.268%20804.615%20147.873%20804.615%20167.159H779.673C779.673%20134.922%20805.144%20115.671%20847.809%20115.671C898.581%20115.671%20921.218%20131.854%20921.218%20168.141V230.198C921.218%20246.947%20922.231%20258.037%20922.24%20258.15H899.746C899.746%20258.09%20899.11%20252.049%20899.746%20242.288C892.697%20253.005%20868.096%20260.21%20838.535%20260.21L838.517%20260.219ZM896.67%20190.939C859.683%20195.094%20833.647%20198.579%20818.158%20203.098C803.781%20207.288%20797.925%20212.45%20797.925%20220.907C797.925%20238.256%20820.418%20240.846%20833.817%20240.846C855.701%20240.846%20870.473%20238.256%20880.311%20232.702C891.316%20226.487%20896.67%20216.11%20896.67%20200.978V190.939Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3Cpath%20d%3D%22M141.738%20258.157H216.974C215.756%20246.058%20207.032%20232.805%20185.708%20223.772V222.878C210.568%20230.441%20219.505%20243.357%20223.147%20258.148H315.957L301.03%20245.481C309.764%20218.304%20344.353%20205.455%20344.353%20205.455C343.126%20183.649%20331.841%20163.333%20294.112%20146.871L208.278%20113.235C211.157%20149.091%20224.007%20169.657%20256.229%20174.702V175.576C233.843%20175.029%20218.307%20165.14%20210.433%20144.785C142.057%20157.192%20125.574%20208.962%20141.738%20258.157Z%22%20fill%3D%22%23ffffff%22%2F%3E%0A%3C%2Fsvg%3E" alt="Pika">
       </div>
       <div class="bot-selector">
         <div class="bot-selector-avatar"></div>
         <span class="bot-selector-name">Russ</span>
         <i class="ph ph-caret-down"></i>
       </div>
+      <nav class="nav">
+        <div class="nav-item active"><i class="ph ph-chart-pie-slice"></i>Overview</div>
+        <div class="nav-item"><i class="ph ph-chat-circle-dots"></i>Conversations</div>
+        <div class="nav-item"><i class="ph ph-robot"></i>Skills</div>
+        <div class="nav-item"><i class="ph ph-clock"></i>Screen Time</div>
+        <div class="nav-item"><i class="ph ph-chart-line-up"></i>Analytics</div>
+      </nav>
     </div>
     <div class="header-actions">
       <button class="icon-btn"><i class="ph ph-gear"></i></button>
