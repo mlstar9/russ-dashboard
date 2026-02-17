@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pika Owner Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --cream: #F5F0E8;
+      --white: #FFFFFF;
+      --lavender: #D4C4F5;
+      --lavender-light: #EDE7FA;
+      --teal: #4ECDC4;
+      --yellow: #FFD93D;
+      --yellow-light: #FFF9E6;
+      --black: #000000;
+      --gray: #6B6B6B;
+      --gray-light: #E8E8E8;
+      --dark: #1A1A1A;
+      --green: #22C55E;
+      --red: #EF4444;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      color: var(--black);
+    }
+    
+    /* Telka simulation - using Inter with letter-spacing and weight adjustments */
+    .display-text {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    
+    .condensed {
+      font-stretch: condensed;
+      letter-spacing: -0.03em;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 24px;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--black);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--lavender);
+      color: var(--black);
+    }
+    
+    .btn-primary:hover {
+      background: #C4B4E5;
+    }
+    
+    .btn-secondary {
+      background: var(--white);
+      color: var(--black);
+      border: 1px solid var(--gray-light);
+    }
+    
+    .btn-dark {
+      background: var(--black);
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+    
+    /* Main Layout */
+    .main {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      padding: 24px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    /* Bot Profile Card */
+    .profile-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .avatar-container {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 16px;
+    }
+    
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--lavender-light), var(--gray-light));
+      object-fit: cover;
+    }
+    
+    .status-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .status-online {
+      background: var(--green);
+      color: white;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .bot-name {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    
+    .bot-handle {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    
+    .bot-bio {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+    
+    .connections {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .connection-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gray-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+    
+    .connection-icon.active {
+      background: var(--lavender);
+    }
+    
+    .connection-icon:hover {
+      transform: scale(1.1);
+    }
+    
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .profile-actions .btn {
+      width: 100%;
+    }
+    
+    /* Content Area */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    
+    .stat-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 20px;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    
+    .stat-subtext {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+    
+    .stat-trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .trend-up {
+      background: #DCFCE7;
+      color: #16A34A;
+    }
+    
+    .trend-down {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+    
+    /* Usage Card */
+    .usage-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 24px;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+    
+    .usage-ring-container {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+    
+    .usage-ring {
+      position: relative;
+      width: 180px;
+      height: 180px;
+    }
+    
+    .usage-ring svg {
+      transform: rotate(-90deg);
+    }
+    
+    .usage-ring-bg {
+      fill: none;
+      stroke: var(--gray-light);
+      stroke-width: 12;
+    }
+    
+    .usage-ring-fill {
+      fill: none;
+      stroke: var(--lavender);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 132; /* 70% used = 30% remaining = 132 offset */
+      transition: stroke-dashoffset 0.5s;
+    }
+    
+    .usage-ring-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .usage-percent {
+      font-size: 36px;
+      font-weight: 800;
+    }
+    
+    .usage-label {
+      font-size: 12px;
+      color: var(--gray);
+    }
+    
+    .usage-details {
+      flex: 1;
+    }
+    
+    .usage-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-light);
+    }
+    
+    .usage-item:last-child {
+      border-bottom: none;
+    }
+    
+    .usage-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .usage-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .usage-icon.tokens {
+      background: var(--yellow-light);
+    }
+    
+    .usage-icon.messages {
+      background: var(--lavender-light);
+    }
+    
+    .usage-icon.images {
+      background: #E0F2FE;
+    }
+    
+    .usage-item-name {
+      font-weight: 600;
+    }
+    
+    .usage-item-value {
+      font-weight: 700;
+      font-size: 18px;
+    }
+    
+    /* Activity Feed */
+    .activity-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 24px;
+    }
+    
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--cream);
+    }
+    
+    .activity-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--lavender-light);
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-text {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    
+    .activity-text strong {
+      font-weight: 600;
+    }
+    
+    .activity-time {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+    
+    .activity-badge {
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .badge-discord {
+      background: #5865F2;
+      color: white;
+    }
+    
+    .badge-slack {
+      background: #4A154B;
+      color: white;
+    }
+    
+    .badge-telegram {
+      background: #0088CC;
+      color: white;
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    
+    .action-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    
+    .action-card:hover {
+      border-color: var(--lavender);
+      transform: translateY(-2px);
+    }
+    
+    .action-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--lavender-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin: 0 auto 12px;
+    }
+    
+    .action-card:nth-child(2) .action-icon {
+      background: var(--yellow-light);
+    }
+    
+    .action-card:nth-child(3) .action-icon {
+      background: #E0F2FE;
+    }
+    
+    .action-title {
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    
+    .action-desc {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+    
+    /* Token Balance Bar */
+    .token-bar {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    
+    .token-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .token-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .token-balance {
+      font-size: 24px;
+      font-weight: 800;
+    }
+    
+    .token-label {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">🐾</div>
+      <span>Pika</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary">Settings</button>
+      <button class="btn btn-primary">+ Add Connection</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Left Sidebar - Bot Profile -->
+    <aside class="profile-card">
+      <div class="avatar-container">
+        <div class="avatar"></div>
+        <div class="status-badge status-online">
+          <div class="status-dot"></div>
+          Online
+        </div>
+      </div>
+      <h1 class="bot-name">Russ</h1>
+      <p class="bot-handle">@russ</p>
+      <p class="bot-bio">Product designer who geeks out on UI/UX, Apple HIG, and making things feel right.</p>
+      
+      <div class="connections">
+        <div class="connection-icon active" title="Discord">💬</div>
+        <div class="connection-icon active" title="Slack">📱</div>
+        <div class="connection-icon" title="Telegram">✈️</div>
+        <div class="connection-icon" title="WhatsApp">📞</div>
+        <div class="connection-icon" title="X">𝕏</div>
+      </div>
+      
+      <div class="profile-actions">
+        <button class="btn btn-dark">Edit Personality</button>
+        <button class="btn btn-secondary">View Conversations</button>
+        <button class="btn btn-secondary">Manage Files</button>
+      </div>
+    </aside>
+
+    <!-- Right Content -->
+    <div class="content">
+      <!-- Token Balance Bar -->
+      <div class="token-bar">
+        <div class="token-info">
+          <div class="token-icon">⚡</div>
+          <div>
+            <div class="token-balance">2,847</div>
+            <div class="token-label">Tokens remaining</div>
+          </div>
+        </div>
+        <button class="btn btn-primary">Buy Tokens</button>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Messages Today</div>
+          <div class="stat-value">147</div>
+          <div class="stat-subtext">
+            <span class="stat-trend trend-up">↑ 23%</span> vs yesterday
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Time</div>
+          <div class="stat-value">18h</div>
+          <div class="stat-subtext">Last active 2m ago</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Images Generated</div>
+          <div class="stat-value">12</div>
+          <div class="stat-subtext">This week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Cost Today</div>
+          <div class="stat-value">$0.42</div>
+          <div class="stat-subtext">
+            <span class="stat-trend trend-down">↓ 15%</span> vs avg
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Card -->
+      <div class="usage-card">
+        <div class="card-header">
+          <h2 class="card-title">Usage This Week</h2>
+          <button class="btn btn-secondary">View Details</button>
+        </div>
+        <div class="usage-ring-container">
+          <div class="usage-ring">
+            <svg width="180" height="180" viewBox="0 0 180 180">
+              <circle class="usage-ring-bg" cx="90" cy="90" r="70"/>
+              <circle class="usage-ring-fill" cx="90" cy="90" r="70"/>
+            </svg>
+            <div class="usage-ring-center">
+              <div class="usage-percent">70%</div>
+              <div class="usage-label">of weekly cap</div>
+            </div>
+          </div>
+          <div class="usage-details">
+            <div class="usage-item">
+              <div class="usage-item-left">
+                <div class="usage-icon tokens">⚡</div>
+                <span class="usage-item-name">Tokens Used</span>
+              </div>
+              <span class="usage-item-value">3,153</span>
+            </div>
+            <div class="usage-item">
+              <div class="usage-item-left">
+                <div class="usage-icon messages">💬</div>
+                <span class="usage-item-name">Messages</span>
+              </div>
+              <span class="usage-item-value">892</span>
+            </div>
+            <div class="usage-item">
+              <div class="usage-item-left">
+                <div class="usage-icon images">🖼️</div>
+                <span class="usage-item-name">Media Generated</span>
+              </div>
+              <span class="usage-item-value">34</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-card">
+          <div class="action-icon">✏️</div>
+          <div class="action-title">Edit Soul</div>
+          <div class="action-desc">Personality & voice</div>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">⚡</div>
+          <div class="action-title">Set Limits</div>
+          <div class="action-desc">Spending caps & alerts</div>
+        </div>
+        <div class="action-card">
+          <div class="action-icon">📊</div>
+          <div class="action-title">Analytics</div>
+          <div class="action-desc">Deep dive into usage</div>
+        </div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="activity-card">
+        <div class="card-header">
+          <h2 class="card-title">Recent Activity</h2>
+          <button class="btn btn-secondary">View All</button>
+        </div>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-avatar"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Russ</strong> responded to a design question about component spacing</div>
+              <div class="activity-time">2 minutes ago</div>
+            </div>
+            <span class="activity-badge badge-slack">Slack</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-avatar"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Russ</strong> generated 3 avatar variants for a user</div>
+              <div class="activity-time">15 minutes ago</div>
+            </div>
+            <span class="activity-badge badge-discord">Discord</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-avatar"></div>
+            <div class="activity-content">
+              <div class="activity-text"><strong>Russ</strong> completed morning heartbeat check</div>
+              <div class="activity-time">1 hour ago</div>
+            </div>
+            <span class="activity-badge badge-slack">Slack</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
