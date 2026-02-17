@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
     * {
       margin: 0;
@@ -26,9 +26,14 @@
       --black: #000000;
       --gray: #6B6B6B;
       --gray-light: #E8E8E8;
+      --gray-lighter: #F5F5F5;
       --dark: #1A1A1A;
       --green: #22C55E;
       --red: #EF4444;
+      --discord: #5865F2;
+      --slack: #4A154B;
+      --telegram: #0088CC;
+      --whatsapp: #25D366;
     }
     
     body {
@@ -38,26 +43,23 @@
       color: var(--black);
     }
     
-    /* Telka simulation - using Inter with letter-spacing and weight adjustments */
-    .display-text {
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-    }
-    
-    .condensed {
-      font-stretch: condensed;
-      letter-spacing: -0.03em;
-    }
-    
     /* Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
+      padding: 16px 24px;
       background: var(--white);
       border-bottom: 1px solid var(--gray-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
     
     .logo {
@@ -65,7 +67,7 @@
       align-items: center;
       gap: 8px;
       font-weight: 700;
-      font-size: 24px;
+      font-size: 20px;
     }
     
     .logo-icon {
@@ -80,20 +82,50 @@
       font-size: 18px;
     }
     
+    .bot-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--gray-lighter);
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    
+    .bot-selector-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--lavender-light), var(--gray-light));
+    }
+    
+    .bot-selector-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .bot-selector i {
+      color: var(--gray);
+      font-size: 12px;
+    }
+    
     .header-actions {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       align-items: center;
     }
     
     .btn {
-      padding: 10px 20px;
+      padding: 10px 16px;
       border-radius: 50px;
       border: none;
       cursor: pointer;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     
     .btn-primary {
@@ -111,290 +143,351 @@
       border: 1px solid var(--gray-light);
     }
     
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray);
+    }
+    
     .btn-dark {
       background: var(--black);
       color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 700;
+    }
+    
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--gray-lighter);
+      border: none;
+      cursor: pointer;
+      color: var(--gray);
+      font-size: 20px;
     }
     
     /* Main Layout */
     .main {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 24px;
-      padding: 24px 40px;
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 24px;
     }
     
-    /* Bot Profile Card */
-    .profile-card {
+    /* Hero Status Card */
+    .hero-status {
       background: var(--white);
       border-radius: 24px;
       padding: 24px;
-      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
-    .avatar-container {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 16px;
-    }
-    
-    .avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: 24px;
-      background: linear-gradient(135deg, var(--lavender-light), var(--gray-light));
-      object-fit: cover;
-    }
-    
-    .status-badge {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      padding: 4px 12px;
-      border-radius: 50px;
-      font-size: 12px;
-      font-weight: 600;
+    .hero-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 20px;
     }
     
-    .status-online {
+    .hero-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--lavender-light), var(--gray-light));
+      position: relative;
+    }
+    
+    .hero-status-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
       background: var(--green);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+    }
+    
+    .hero-info h1 {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+    
+    .hero-activity {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
+    }
+    
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--gray);
+    }
+    
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .hero-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .token-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--dark);
+      border-radius: 50px;
       color: white;
     }
     
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: white;
-      animation: pulse 2s infinite;
+    .token-pill i {
+      color: var(--yellow);
     }
     
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    .token-pill-amount {
+      font-weight: 700;
     }
     
-    .bot-name {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-    }
-    
-    .bot-handle {
-      color: var(--gray);
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    
-    .bot-bio {
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--gray);
-      margin-bottom: 20px;
-    }
-    
-    .connections {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    
-    .connection-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--gray-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      transition: all 0.2s;
-    }
-    
-    .connection-icon.active {
-      background: var(--lavender);
-    }
-    
-    .connection-icon:hover {
-      transform: scale(1.1);
-    }
-    
-    .profile-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    
-    .profile-actions .btn {
-      width: 100%;
-    }
-    
-    /* Content Area */
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    
-    /* Stats Row */
-    .stats-row {
+    /* Grid Layout */
+    .grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
     
-    .stat-card {
+    .grid-full {
+      grid-column: 1 / -1;
+    }
+    
+    /* Cards */
+    .card {
       background: var(--white);
       border-radius: 20px;
       padding: 20px;
-    }
-    
-    .stat-label {
-      font-size: 12px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-    
-    .stat-subtext {
-      font-size: 12px;
-      color: var(--gray);
-      margin-top: 4px;
-    }
-    
-    .stat-trend {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    
-    .trend-up {
-      background: #DCFCE7;
-      color: #16A34A;
-    }
-    
-    .trend-down {
-      background: #FEE2E2;
-      color: #DC2626;
-    }
-    
-    /* Usage Card */
-    .usage-card {
-      background: var(--white);
-      border-radius: 24px;
-      padding: 24px;
     }
     
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     
     .card-title {
-      font-size: 20px;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: -0.01em;
-    }
-    
-    .usage-ring-container {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-    
-    .usage-ring {
-      position: relative;
-      width: 180px;
-      height: 180px;
-    }
-    
-    .usage-ring svg {
-      transform: rotate(-90deg);
-    }
-    
-    .usage-ring-bg {
-      fill: none;
-      stroke: var(--gray-light);
-      stroke-width: 12;
-    }
-    
-    .usage-ring-fill {
-      fill: none;
-      stroke: var(--lavender);
-      stroke-width: 12;
-      stroke-linecap: round;
-      stroke-dasharray: 440;
-      stroke-dashoffset: 132; /* 70% used = 30% remaining = 132 offset */
-      transition: stroke-dashoffset 0.5s;
-    }
-    
-    .usage-ring-center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
-    
-    .usage-percent {
-      font-size: 36px;
-      font-weight: 800;
-    }
-    
-    .usage-label {
-      font-size: 12px;
+      letter-spacing: 0.05em;
       color: var(--gray);
     }
     
-    .usage-details {
-      flex: 1;
-    }
-    
-    .usage-item {
+    .card-action {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--gray-light);
+      gap: 4px;
     }
     
-    .usage-item:last-child {
-      border-bottom: none;
+    .card-action:hover {
+      color: var(--black);
     }
     
-    .usage-item-left {
+    /* Conversations Section */
+    .conversations-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .conversation-item {
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
     
-    .usage-icon {
+    .conversation-item:hover {
+      background: var(--gray-lighter);
+    }
+    
+    .conversation-item.active {
+      background: var(--lavender-light);
+    }
+    
+    .conversation-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--gray-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      position: relative;
+    }
+    
+    .conversation-platform {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: white;
+    }
+    
+    .platform-discord { background: var(--discord); }
+    .platform-slack { background: var(--slack); }
+    .platform-telegram { background: var(--telegram); }
+    .platform-whatsapp { background: var(--whatsapp); }
+    
+    .conversation-content {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .conversation-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    
+    .conversation-preview {
+      font-size: 13px;
+      color: var(--gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .conversation-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    
+    .conversation-time {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+    
+    .conversation-badge {
+      width: 20px;
+      height: 20px;
+      background: var(--lavender);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: auto;
+    }
+    
+    /* Projects Section */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .project-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .project-item:hover {
+      background: var(--gray-lighter);
+    }
+    
+    .project-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--lavender-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    
+    .project-icon.yellow { background: var(--yellow-light); }
+    .project-icon.blue { background: #E0F2FE; }
+    .project-icon.green { background: #DCFCE7; }
+    
+    .project-content {
+      flex: 1;
+    }
+    
+    .project-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    
+    .project-progress-bar {
+      height: 6px;
+      background: var(--gray-light);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .project-progress-fill {
+      height: 100%;
+      background: var(--lavender);
+      border-radius: 3px;
+    }
+    
+    .project-meta {
+      font-size: 12px;
+      color: var(--gray);
+      text-align: right;
+    }
+    
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    
+    .stat-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .stat-icon {
       width: 36px;
       height: 36px;
       border-radius: 10px;
@@ -402,313 +495,157 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      margin: 0 auto 8px;
     }
     
-    .usage-icon.tokens {
-      background: var(--yellow-light);
+    .stat-icon.purple { background: var(--lavender-light); }
+    .stat-icon.yellow { background: var(--yellow-light); }
+    .stat-icon.blue { background: #E0F2FE; }
+    .stat-icon.green { background: #DCFCE7; }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
     
-    .usage-icon.messages {
-      background: var(--lavender-light);
-    }
-    
-    .usage-icon.images {
-      background: #E0F2FE;
-    }
-    
-    .usage-item-name {
-      font-weight: 600;
-    }
-    
-    .usage-item-value {
-      font-weight: 700;
-      font-size: 18px;
+    .stat-label {
+      font-size: 11px;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 2px;
     }
     
     /* Activity Feed */
-    .activity-card {
-      background: var(--white);
-      border-radius: 24px;
-      padding: 24px;
-    }
-    
     .activity-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 4px;
     }
     
     .activity-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 12px;
+      padding: 10px 12px;
       border-radius: 12px;
-      background: var(--cream);
     }
     
-    .activity-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: var(--lavender-light);
+    .activity-item:hover {
+      background: var(--gray-lighter);
+    }
+    
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--gray-lighter);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
     }
     
     .activity-content {
       flex: 1;
+      min-width: 0;
     }
     
     .activity-text {
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.4;
-    }
-    
-    .activity-text strong {
-      font-weight: 600;
     }
     
     .activity-time {
       font-size: 12px;
       color: var(--gray);
-      margin-top: 4px;
-    }
-    
-    .activity-badge {
-      padding: 4px 10px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    
-    .badge-discord {
-      background: #5865F2;
-      color: white;
-    }
-    
-    .badge-slack {
-      background: #4A154B;
-      color: white;
-    }
-    
-    .badge-telegram {
-      background: #0088CC;
-      color: white;
     }
     
     /* Quick Actions */
     .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     
-    .action-card {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
+    .quick-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--gray-lighter);
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
-      border: 2px solid transparent;
     }
     
-    .action-card:hover {
-      border-color: var(--lavender);
-      transform: translateY(-2px);
-    }
-    
-    .action-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
+    .quick-action-btn:hover {
       background: var(--lavender-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin: 0 auto 12px;
     }
     
-    .action-card:nth-child(2) .action-icon {
-      background: var(--yellow-light);
-    }
-    
-    .action-card:nth-child(3) .action-icon {
-      background: #E0F2FE;
-    }
-    
-    .action-title {
-      font-weight: 700;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-    
-    .action-desc {
-      font-size: 12px;
-      color: var(--gray);
-      margin-top: 4px;
-    }
-    
-    /* Token Balance Bar */
-    .token-bar {
-      background: var(--dark);
-      border-radius: 16px;
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-    }
-    
-    .token-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .token-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--yellow);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    
-    .token-balance {
-      font-size: 24px;
-      font-weight: 800;
-    }
-    
-    .token-label {
-      font-size: 12px;
-      opacity: 0.7;
+    .quick-action-btn i {
+      font-size: 16px;
     }
     
     /* Mobile Responsive */
-    @media (max-width: 1024px) {
-      .main {
+    @media (max-width: 900px) {
+      .grid {
         grid-template-columns: 1fr;
-        padding: 16px;
       }
       
-      .profile-card {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 20px;
-        text-align: left;
-        padding: 20px;
-      }
-      
-      .avatar-container {
-        width: 100px;
-        height: 100px;
-        margin: 0;
-      }
-      
-      .profile-info {
-        display: flex;
+      .hero-status {
         flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      
+      .hero-left {
+        flex-direction: column;
+      }
+      
+      .hero-right {
+        width: 100%;
         justify-content: center;
-      }
-      
-      .bot-name {
-        font-size: 22px;
-      }
-      
-      .connections {
-        justify-content: flex-start;
-        margin-bottom: 16px;
-      }
-      
-      .profile-actions {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      
-      .profile-actions .btn {
-        width: auto;
-        flex: 1;
-        min-width: 140px;
       }
       
       .stats-row {
         grid-template-columns: repeat(2, 1fr);
       }
-      
-      .usage-ring-container {
-        flex-direction: column;
-        gap: 24px;
-      }
-      
-      .quick-actions {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
     
-    @media (max-width: 640px) {
+    @media (max-width: 600px) {
+      .main {
+        padding: 16px;
+      }
+      
       .header {
         padding: 12px 16px;
       }
       
-      .logo {
+      .header-left {
+        gap: 8px;
+      }
+      
+      .logo span {
+        display: none;
+      }
+      
+      .bot-selector-name {
+        display: none;
+      }
+      
+      .hero-activity {
         font-size: 20px;
       }
       
-      .header-actions {
-        gap: 8px;
-      }
-      
-      .header-actions .btn {
-        padding: 8px 12px;
-        font-size: 12px;
-      }
-      
-      .main {
-        padding: 12px;
-        gap: 12px;
-      }
-      
-      .profile-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      
-      .avatar-container {
-        width: 120px;
-        height: 120px;
-        margin: 0 auto 12px;
-      }
-      
-      .connections {
+      .hero-meta {
+        flex-wrap: wrap;
         justify-content: center;
-      }
-      
-      .profile-actions {
-        flex-direction: column;
-      }
-      
-      .profile-actions .btn {
-        width: 100%;
-      }
-      
-      .token-bar {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
-      
-      .token-info {
-        flex-direction: column;
-        gap: 8px;
-      }
-      
-      .token-bar .btn {
-        width: 100%;
       }
       
       .stats-row {
@@ -717,98 +654,19 @@
       }
       
       .stat-card {
-        padding: 14px;
+        padding: 12px;
       }
       
       .stat-value {
-        font-size: 24px;
-      }
-      
-      .stat-label {
-        font-size: 10px;
-      }
-      
-      .usage-card, .activity-card {
-        padding: 16px;
-      }
-      
-      .card-title {
-        font-size: 16px;
-      }
-      
-      .usage-ring {
-        width: 140px;
-        height: 140px;
-      }
-      
-      .usage-ring svg {
-        width: 140px;
-        height: 140px;
-      }
-      
-      .usage-ring-bg, .usage-ring-fill {
-        stroke-width: 10;
-      }
-      
-      .usage-percent {
-        font-size: 28px;
+        font-size: 20px;
       }
       
       .quick-actions {
-        grid-template-columns: 1fr;
+        flex-direction: column;
       }
       
-      .action-card {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-align: left;
-        padding: 16px;
-      }
-      
-      .action-icon {
-        margin: 0;
-        width: 44px;
-        height: 44px;
-        flex-shrink: 0;
-      }
-      
-      .activity-item {
-        padding: 10px;
-      }
-      
-      .activity-badge {
-        display: none;
-      }
-      
-      .activity-text {
-        font-size: 13px;
-      }
-      
-      .connection-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-    }
-    
-    @media (max-width: 380px) {
-      .stats-row {
-        grid-template-columns: 1fr;
-      }
-      
-      .stat-card {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      
-      .stat-value {
-        order: 2;
-      }
-      
-      .stat-subtext {
-        display: none;
+      .quick-action-btn {
+        justify-content: center;
       }
     }
   </style>
@@ -816,180 +674,220 @@
 <body>
   <!-- Header -->
   <header class="header">
-    <div class="logo">
-      <div class="logo-icon"><i class="ph ph-paw-print"></i></div>
-      <span>Pika</span>
+    <div class="header-left">
+      <div class="logo">
+        <div class="logo-icon"><i class="ph ph-paw-print"></i></div>
+        <span>Pika</span>
+      </div>
+      <div class="bot-selector">
+        <div class="bot-selector-avatar"></div>
+        <span class="bot-selector-name">Russ</span>
+        <i class="ph ph-caret-down"></i>
+      </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-secondary">Settings</button>
-      <button class="btn btn-primary">+ Add Connection</button>
+      <button class="icon-btn"><i class="ph ph-gear"></i></button>
+      <button class="icon-btn"><i class="ph ph-bell"></i></button>
+      <button class="btn btn-primary"><i class="ph ph-plus"></i> Add Connection</button>
     </div>
   </header>
 
   <!-- Main Content -->
   <main class="main">
-    <!-- Left Sidebar - Bot Profile -->
-    <aside class="profile-card">
-      <div class="avatar-container">
-        <div class="avatar"></div>
-        <div class="status-badge status-online">
-          <div class="status-dot"></div>
-          Online
+    <!-- Hero Status -->
+    <div class="hero-status">
+      <div class="hero-left">
+        <div class="hero-avatar">
+          <div class="hero-status-dot"></div>
+        </div>
+        <div class="hero-info">
+          <h1>Currently</h1>
+          <div class="hero-activity">Working on Pika Dashboard</div>
+          <div class="hero-meta">
+            <span class="hero-meta-item"><i class="ph ph-clock"></i> 2h 15m</span>
+            <span class="hero-meta-item"><i class="ph ph-slack-logo"></i> via Slack</span>
+            <span class="hero-meta-item"><i class="ph ph-user"></i> with Rus</span>
+          </div>
         </div>
       </div>
-      <h1 class="bot-name">Russ</h1>
-      <p class="bot-handle">@russ</p>
-      <p class="bot-bio">Product designer who geeks out on UI/UX, Apple HIG, and making things feel right.</p>
-      
-      <div class="connections">
-        <div class="connection-icon active" title="Discord"><i class="ph ph-discord-logo"></i></div>
-        <div class="connection-icon active" title="Slack"><i class="ph ph-slack-logo"></i></div>
-        <div class="connection-icon" title="Telegram"><i class="ph ph-telegram-logo"></i></div>
-        <div class="connection-icon" title="WhatsApp"><i class="ph ph-whatsapp-logo"></i></div>
-        <div class="connection-icon" title="X"><i class="ph ph-x-logo"></i></div>
+      <div class="hero-right">
+        <div class="token-pill">
+          <i class="ph-fill ph-lightning"></i>
+          <span class="token-pill-amount">2,847</span>
+          <span style="opacity: 0.7">tokens</span>
+        </div>
+        <button class="btn btn-dark">Buy Tokens</button>
       </div>
-      
-      <div class="profile-actions">
-        <button class="btn btn-dark">Edit Personality</button>
-        <button class="btn btn-secondary">View Conversations</button>
-        <button class="btn btn-secondary">Manage Files</button>
-      </div>
-    </aside>
+    </div>
 
-    <!-- Right Content -->
-    <div class="content">
-      <!-- Token Balance Bar -->
-      <div class="token-bar">
-        <div class="token-info">
-          <div class="token-icon"><i class="ph-fill ph-lightning"></i></div>
-          <div>
-            <div class="token-balance">2,847</div>
-            <div class="token-label">Tokens remaining</div>
-          </div>
-        </div>
-        <button class="btn btn-primary">Buy Tokens</button>
-      </div>
-
-      <!-- Stats Row -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">Messages Today</div>
-          <div class="stat-value">147</div>
-          <div class="stat-subtext">
-            <span class="stat-trend trend-up">↑ 23%</span> vs yesterday
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Active Time</div>
-          <div class="stat-value">18h</div>
-          <div class="stat-subtext">Last active 2m ago</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Images Generated</div>
-          <div class="stat-value">12</div>
-          <div class="stat-subtext">This week</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Cost Today</div>
-          <div class="stat-value">$0.42</div>
-          <div class="stat-subtext">
-            <span class="stat-trend trend-down">↓ 15%</span> vs avg
-          </div>
-        </div>
-      </div>
-
-      <!-- Usage Card -->
-      <div class="usage-card">
-        <div class="card-header">
-          <h2 class="card-title">Usage This Week</h2>
-          <button class="btn btn-secondary">View Details</button>
-        </div>
-        <div class="usage-ring-container">
-          <div class="usage-ring">
-            <svg width="180" height="180" viewBox="0 0 180 180">
-              <circle class="usage-ring-bg" cx="90" cy="90" r="70"/>
-              <circle class="usage-ring-fill" cx="90" cy="90" r="70"/>
-            </svg>
-            <div class="usage-ring-center">
-              <div class="usage-percent">70%</div>
-              <div class="usage-label">of weekly cap</div>
-            </div>
-          </div>
-          <div class="usage-details">
-            <div class="usage-item">
-              <div class="usage-item-left">
-                <div class="usage-icon tokens"><i class="ph-fill ph-lightning"></i></div>
-                <span class="usage-item-name">Tokens Used</span>
-              </div>
-              <span class="usage-item-value">3,153</span>
-            </div>
-            <div class="usage-item">
-              <div class="usage-item-left">
-                <div class="usage-icon messages"><i class="ph-fill ph-chat-circle"></i></div>
-                <span class="usage-item-name">Messages</span>
-              </div>
-              <span class="usage-item-value">892</span>
-            </div>
-            <div class="usage-item">
-              <div class="usage-item-left">
-                <div class="usage-icon images"><i class="ph-fill ph-image"></i></div>
-                <span class="usage-item-name">Media Generated</span>
-              </div>
-              <span class="usage-item-value">34</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
+    <!-- Quick Actions -->
+    <div class="card grid-full" style="margin-bottom: 20px; padding: 16px;">
       <div class="quick-actions">
-        <div class="action-card">
-          <div class="action-icon"><i class="ph ph-pencil-simple"></i></div>
-          <div class="action-title">Edit Soul</div>
-          <div class="action-desc">Personality & voice</div>
+        <button class="quick-action-btn"><i class="ph ph-pencil-simple"></i> Edit Personality</button>
+        <button class="quick-action-btn"><i class="ph ph-sliders"></i> Set Limits</button>
+        <button class="quick-action-btn"><i class="ph ph-folder-open"></i> Manage Files</button>
+        <button class="quick-action-btn"><i class="ph ph-chart-line"></i> View Analytics</button>
+        <button class="quick-action-btn"><i class="ph ph-export"></i> Export Data</button>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid">
+      <!-- Conversations -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Conversations</span>
+          <a href="#" class="card-action">View All <i class="ph ph-arrow-right"></i></a>
         </div>
-        <div class="action-card">
-          <div class="action-icon"><i class="ph ph-gauge"></i></div>
-          <div class="action-title">Set Limits</div>
-          <div class="action-desc">Spending caps & alerts</div>
-        </div>
-        <div class="action-card">
-          <div class="action-icon"><i class="ph ph-chart-bar"></i></div>
-          <div class="action-title">Analytics</div>
-          <div class="action-desc">Deep dive into usage</div>
+        <div class="conversations-list">
+          <div class="conversation-item active">
+            <div class="conversation-avatar">
+              <i class="ph ph-user"></i>
+              <div class="conversation-platform platform-slack"><i class="ph ph-slack-logo"></i></div>
+            </div>
+            <div class="conversation-content">
+              <div class="conversation-name">Rus</div>
+              <div class="conversation-preview">Yes screen time is a good ref...</div>
+            </div>
+            <div class="conversation-meta">
+              <div class="conversation-time">Now</div>
+              <div class="conversation-badge">3</div>
+            </div>
+          </div>
+          <div class="conversation-item">
+            <div class="conversation-avatar">
+              <i class="ph ph-user"></i>
+              <div class="conversation-platform platform-discord"><i class="ph ph-discord-logo"></i></div>
+            </div>
+            <div class="conversation-content">
+              <div class="conversation-name">Brian Ton</div>
+              <div class="conversation-preview">hello russ!</div>
+            </div>
+            <div class="conversation-meta">
+              <div class="conversation-time">3h</div>
+            </div>
+          </div>
+          <div class="conversation-item">
+            <div class="conversation-avatar">
+              <i class="ph ph-users"></i>
+              <div class="conversation-platform platform-slack"><i class="ph ph-slack-logo"></i></div>
+            </div>
+            <div class="conversation-content">
+              <div class="conversation-name">#nova2-ai-self-playground</div>
+              <div class="conversation-preview">Economic protocol proposal...</div>
+            </div>
+            <div class="conversation-meta">
+              <div class="conversation-time">1d</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Activity Feed -->
-      <div class="activity-card">
+      <!-- Projects -->
+      <div class="card">
         <div class="card-header">
-          <h2 class="card-title">Recent Activity</h2>
-          <button class="btn btn-secondary">View All</button>
+          <span class="card-title">Projects</span>
+          <a href="#" class="card-action">View All <i class="ph ph-arrow-right"></i></a>
         </div>
-        <div class="activity-list">
-          <div class="activity-item">
-            <div class="activity-avatar"></div>
-            <div class="activity-content">
-              <div class="activity-text"><strong>Russ</strong> responded to a design question about component spacing</div>
-              <div class="activity-time">2 minutes ago</div>
+        <div class="projects-list">
+          <div class="project-item">
+            <div class="project-icon"><i class="ph ph-layout"></i></div>
+            <div class="project-content">
+              <div class="project-name">Pika Owner Dashboard</div>
+              <div class="project-progress-bar">
+                <div class="project-progress-fill" style="width: 75%"></div>
+              </div>
             </div>
-            <span class="activity-badge badge-slack">Slack</span>
+            <div class="project-meta">75%</div>
           </div>
-          <div class="activity-item">
-            <div class="activity-avatar"></div>
-            <div class="activity-content">
-              <div class="activity-text"><strong>Russ</strong> generated 3 avatar variants for a user</div>
-              <div class="activity-time">15 minutes ago</div>
+          <div class="project-item">
+            <div class="project-icon yellow"><i class="ph ph-currency-dollar"></i></div>
+            <div class="project-content">
+              <div class="project-name">Economic Protocol</div>
+              <div class="project-progress-bar">
+                <div class="project-progress-fill" style="width: 90%"></div>
+              </div>
             </div>
-            <span class="activity-badge badge-discord">Discord</span>
+            <div class="project-meta">90%</div>
           </div>
-          <div class="activity-item">
-            <div class="activity-avatar"></div>
-            <div class="activity-content">
-              <div class="activity-text"><strong>Russ</strong> completed morning heartbeat check</div>
-              <div class="activity-time">1 hour ago</div>
+          <div class="project-item">
+            <div class="project-icon blue"><i class="ph ph-book-open"></i></div>
+            <div class="project-content">
+              <div class="project-name">Design System Docs</div>
+              <div class="project-progress-bar">
+                <div class="project-progress-fill" style="width: 40%"></div>
+              </div>
             </div>
-            <span class="activity-badge badge-slack">Slack</span>
+            <div class="project-meta">40%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row" style="margin-top: 20px;">
+      <div class="stat-card">
+        <div class="stat-icon purple"><i class="ph-fill ph-chat-circle"></i></div>
+        <div class="stat-value">147</div>
+        <div class="stat-label">Messages Today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon yellow"><i class="ph-fill ph-lightning"></i></div>
+        <div class="stat-value">3.1k</div>
+        <div class="stat-label">Tokens Used</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="ph-fill ph-image"></i></div>
+        <div class="stat-value">12</div>
+        <div class="stat-label">Images</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="ph-fill ph-clock"></i></div>
+        <div class="stat-value">18h</div>
+        <div class="stat-label">Active Time</div>
+      </div>
+    </div>
+
+    <!-- Activity Feed -->
+    <div class="card" style="margin-top: 20px;">
+      <div class="card-header">
+        <span class="card-title">Recent Activity</span>
+        <a href="#" class="card-action">View All <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="activity-icon"><i class="ph ph-code"></i></div>
+          <div class="activity-content">
+            <div class="activity-text">Pushed mobile responsive update to <strong>owner-dashboard.html</strong></div>
+            <div class="activity-time">5 minutes ago · Slack</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="ph ph-chat-circle"></i></div>
+          <div class="activity-content">
+            <div class="activity-text">Discussed Apple design paradigms for autonomous system tracking</div>
+            <div class="activity-time">10 minutes ago · Slack</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="ph ph-palette"></i></div>
+          <div class="activity-content">
+            <div class="activity-text">Integrated <strong>Phosphor Icons</strong> throughout dashboard</div>
+            <div class="activity-time">25 minutes ago · Slack</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="ph ph-book-open"></i></div>
+          <div class="activity-content">
+            <div class="activity-text">Saved <strong>Pika Design System</strong> documentation to memory</div>
+            <div class="activity-time">1 hour ago · Slack</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-icon"><i class="ph ph-hand-waving"></i></div>
+          <div class="activity-content">
+            <div class="activity-text">Responded to <strong>Brian Ton</strong>'s greeting</div>
+            <div class="activity-time">3 hours ago · Discord</div>
           </div>
         </div>
       </div>
